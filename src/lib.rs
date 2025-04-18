@@ -6,7 +6,7 @@ use regex::Regex;
 ///
 /// Indexes are measured in bytes
 pub struct MultiLineStream<'a> {
-    source: &'a str,
+    pub source: &'a str,
     position: usize,
 }
 
