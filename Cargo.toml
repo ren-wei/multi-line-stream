@@ -1,6 +1,6 @@
 [package]
 name = "multi-line-stream"
-version = "1.0.1"
+version = "1.1.0"
 edition = "2024"
 license = "MIT"
 description = "A library of tools for quick movement on multiple lines of text."
