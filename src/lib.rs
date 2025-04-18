@@ -6,26 +6,17 @@ use regex::Regex;
 ///
 /// Indexes are measured in bytes
 pub struct MultiLineStream<'a> {
-    pub source: &'a str,
-    pub len: usize,
+    source: &'a str,
     position: usize,
 }
 
 impl MultiLineStream<'_> {
     pub fn new<'a>(source: &'a str, position: usize) -> MultiLineStream<'a> {
-        MultiLineStream {
-            source,
-            len: source.len(),
-            position,
-        }
+        MultiLineStream { source, position }
     }
 
     pub fn eos(&self) -> bool {
-        self.len <= self.position
-    }
-
-    pub fn get_source(&self) -> &str {
-        self.source
+        self.source.len() <= self.position
     }
 
     pub fn pos(&self) -> usize {
@@ -41,7 +32,7 @@ impl MultiLineStream<'_> {
     }
 
     pub fn go_to_end(&mut self) {
-        self.position = self.len;
+        self.position = self.source.len();
     }
 
     pub fn peek_char(&self, n: isize) -> Option<u8> {
@@ -64,7 +55,7 @@ impl MultiLineStream<'_> {
     }
 
     pub fn advance_if_chars(&mut self, ch: &str) -> bool {
-        if self.position + ch.len() > self.len {
+        if self.position + ch.len() > self.source.len() {
             return false;
         }
 
@@ -103,7 +94,7 @@ impl MultiLineStream<'_> {
     }
 
     pub fn advance_until_char(&mut self, ch: u8) -> bool {
-        while self.position < self.len {
+        while self.position < self.source.len() {
             if self.source.bytes().nth(self.position) == Some(ch) {
                 return true;
             }
@@ -113,7 +104,7 @@ impl MultiLineStream<'_> {
     }
 
     pub fn advance_until_chars(&mut self, ch: &str) -> bool {
-        while self.position + ch.len() <= self.len {
+        while self.position + ch.len() <= self.source.len() {
             if self
                 .source
                 .get(self.position..self.position + ch.len())
@@ -137,7 +128,8 @@ impl MultiLineStream<'_> {
         F: Fn(u8) -> bool,
     {
         let pos_now = self.position;
-        while self.position < self.len && condition(self.source.bytes().nth(self.position).unwrap())
+        while self.position < self.source.len()
+            && condition(self.source.bytes().nth(self.position).unwrap())
         {
             self.advance(1);
         }
