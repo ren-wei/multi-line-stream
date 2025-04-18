@@ -1,0 +1,19 @@
+[package]
+name = "multi-line-stream"
+version = "1.0.0"
+edition = "2024"
+license = "MIT"
+description = "A library of tools for quick movement on multiple lines of text."
+homepage = "https://github.com/ren-wei/multi-line-stream"
+documentation = "https://docs.rs/multi-line-stream/latest/multi-line-stream"
+repository = "https://github.com/ren-wei/multi-line-stream"
+readme = "README.md"
+keywords = ["html", "lsp", "languageservice", "languageserver"]
+categories = ["parsing"]
+
+[features]
+default = []
+full = ["regex"]
+
+[dependencies]
+regex = { version = "1.11.1", optional = true }
