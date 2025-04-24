@@ -10,8 +10,8 @@ pub struct MultiLineStream<'a> {
     position: usize,
 }
 
-impl MultiLineStream<'_> {
-    pub fn new<'a>(source: &'a str, position: usize) -> MultiLineStream<'a> {
+impl<'a> MultiLineStream<'a> {
+    pub fn new(source: &'a str, position: usize) -> MultiLineStream<'a> {
         MultiLineStream { source, position }
     }
 
@@ -72,7 +72,7 @@ impl MultiLineStream<'_> {
     }
 
     #[cfg(feature = "regex")]
-    pub fn advance_if_regexp(&mut self, regexp: &Regex) -> Option<&str> {
+    pub fn advance_if_regexp(&mut self, regexp: &Regex) -> Option<&'a str> {
         let haystack = &self.source[self.position..];
         let captures = regexp.captures(haystack)?;
         let m = captures.get(0).unwrap();
@@ -81,7 +81,7 @@ impl MultiLineStream<'_> {
     }
 
     #[cfg(feature = "regex")]
-    pub fn advance_until_regexp(&mut self, regexp: &Regex) -> Option<&str> {
+    pub fn advance_until_regexp(&mut self, regexp: &Regex) -> Option<&'a str> {
         let haystack = &self.source[self.position..];
         if let Some(captures) = regexp.captures(haystack) {
             let m = captures.get(0).unwrap();
